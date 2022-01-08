@@ -1,2 +1,6 @@
 model/*.pth
 model/*.onnx
+*/__pycache__/
+*/build/
+*/output_*/
+*/release/
