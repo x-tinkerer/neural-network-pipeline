@@ -28,6 +28,7 @@ SOFTWARE.
 
 __all__ = ['quant_mobilenet_v1']
 
+import torch
 from torch import nn
 from torch.nn import Sequential
 import brevitas.onnx as bo
@@ -229,7 +230,7 @@ def main():
     torch.save(moblienet.state_dict(),model_for_export)
 
     onnx_model_export = "quant_mobilenet_v1_b4.onnx"
-    input_shape = (1, 1, 224, 224)
+    input_shape = (1, 3, 224, 224)
     bo.export_finn_onnx(moblienet, input_shape, export_path=onnx_model_export,)
     print("Model saved to %s" % model_for_export)
 
