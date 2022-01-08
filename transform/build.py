@@ -67,8 +67,8 @@ def select_clk_period(platform):
 def select_build_steps(platform):
     if platform in zynq_platforms:
         return [
-            step_qonnx_to_finn,
-            step_tidy_up,
+            "step_qonnx_to_finn",
+            "step_tidy_up",
             step_mobilenet_streamline,
             step_mobilenet_lower_convs,
             step_mobilenet_convert_to_hls_layers_separate_th,
@@ -88,8 +88,8 @@ def select_build_steps(platform):
 os.makedirs("release", exist_ok=True)
 os.environ["FINN_BUILD_DIR"]="./build"
 
-# start_step = "step_hls_codegen"
-start_step = None
+# start_step = None
+start_step = "step_hls_codegen"
 
 for platform_name in platforms_to_build:
     shell_flow_type = platform_to_shell(platform_name)
