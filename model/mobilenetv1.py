@@ -36,7 +36,7 @@ from brevitas.core.restrict_val import RestrictValueType
 from brevitas.quant import IntBias
 from brevitas.quant import Uint8ActPerTensorFloatMaxInit, Int8ActPerTensorFloatMinMaxInit
 from brevitas.quant import Int8WeightPerTensorFloat
-from brevitas.nn import QuantConv2d, QuantLinear, QuantReLU, QuantAvgPool2d
+from brevitas.nn import QuantConv2d, QuantLinear, QuantReLU, QuantAvgPool2d, QuantIdentity
 
 
 FIRST_LAYER_BIT_WIDTH = 8
@@ -166,6 +166,8 @@ class MobileNet(nn.Module):
         init_block_channels = channels[0][0]
 
         self.features = Sequential()
+        quant_inp = QuantIdentity(bit_width=8)
+        self.features.add_module('quant_input', quant_inp)
         init_block = ConvBlock(
             in_channels=in_channels,
             out_channels=init_block_channels,

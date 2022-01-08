@@ -88,6 +88,9 @@ def select_build_steps(platform):
 os.makedirs("release", exist_ok=True)
 os.environ["FINN_BUILD_DIR"]="./build"
 
+# start_step = "step_hls_codegen"
+start_step = None
+
 for platform_name in platforms_to_build:
     shell_flow_type = platform_to_shell(platform_name)
     vitis_platform = None
@@ -99,6 +102,7 @@ for platform_name in platforms_to_build:
 
     cfg = build_cfg.DataflowBuildConfig(
         steps=select_build_steps(platform_name),
+        start_step = start_step,
         output_dir="output_%s_%s" % (model_name, release_platform_name),
         folding_config_file="folding_config/%s_folding_config.json" % platform_name,
         synth_clk_period_ns=select_clk_period(platform_name),
