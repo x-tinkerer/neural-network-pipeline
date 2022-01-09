@@ -49,4 +49,7 @@ index 0c5da60..dd80523 100644
 
 ```
 
+----
 - ### some other 'workspace' path need patch, detail in **[finn.patch](finn.patch)** .
+----
+- ### [ERROR: [BD 5-390] IP definition not found for VLNV](https://github.com/bigzz/neural-network-pipeline/issues/4)
