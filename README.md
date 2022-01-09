@@ -2,12 +2,14 @@
 The full pipeline from the quantitative training of the neural network, then conversion to FPGA IPs and the generation of a complete RISC-V SoC.
 
 
-## Some issues:
+## Some **IMPORTANT** info:
+----
+- ### can not find vivado_hls.
 
-- can not find vivado_hls
 For Vi*20, we use vitis_hls, need use vitis branch for finn/finn-base/finn-hlslib to support vitis_hls.
 
-- step_hls_ipgen can not find project.
+----
+- ### step_hls_ipgen can not find project.
 ```patch
 diff --git a/transform/build.py b/transform/build.py
 index 0c5da60..dd80523 100644
@@ -22,7 +24,8 @@ index 0c5da60..dd80523 100644
 
 ```
 
-- step_hls_ipgen can not find inclue file and gen ip fail.
+----
+- ### step_hls_ipgen can not find inclue file and gen ip fail.
 ```patch
 --- a/src/finn/custom_op/fpgadataflow/hlscustomop.py
 +++ b/src/finn/custom_op/fpgadataflow/hlscustomop.py
