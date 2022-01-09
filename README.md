@@ -49,4 +49,4 @@ index 0c5da60..dd80523 100644
 
 ```
 
-- ### some other 'workspace' path need patch, detail in **finn.patch**
+- ### some other 'workspace' path need patch, detail in **[finn.patch](finn.patch)** .
