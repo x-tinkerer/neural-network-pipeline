@@ -10,7 +10,7 @@ For Vi*20, we use vitis_hls, need use vitis branch for finn/finn-base/finn-hlsli
 
 ----
 - ### step_hls_ipgen can not find project.
-```patch
+```bash
 diff --git a/transform/build.py b/transform/build.py
 index 0c5da60..dd80523 100644
 --- a/transform/build.py
@@ -26,7 +26,8 @@ index 0c5da60..dd80523 100644
 
 ----
 - ### step_hls_ipgen can not find inclue file and gen ip fail.
-```patch
+
+```bash
 --- a/src/finn/custom_op/fpgadataflow/hlscustomop.py
 +++ b/src/finn/custom_op/fpgadataflow/hlscustomop.py
 @@ -296,12 +296,14 @@ class HLSCustomOp(CustomOp):
