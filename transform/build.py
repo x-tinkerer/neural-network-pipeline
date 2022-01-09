@@ -86,7 +86,7 @@ def select_build_steps(platform):
 
 # create a release dir, used for finn-examples release packaging
 os.makedirs("release", exist_ok=True)
-os.environ["FINN_BUILD_DIR"]="./build"
+os.environ["FINN_BUILD_DIR"]="/home/wenjun/Code/dios/neural-network-pipeline/transform/finn_build"
 
 # start_step = None
 start_step = "step_hls_codegen"

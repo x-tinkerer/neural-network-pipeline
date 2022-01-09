@@ -1,6 +1,6 @@
 model/*.pth
 model/*.onnx
 */__pycache__/
-*/build/
+*/finn_build/
 */output_*/
 */release/
