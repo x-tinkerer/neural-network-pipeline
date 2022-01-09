@@ -89,7 +89,8 @@ os.makedirs("release", exist_ok=True)
 os.environ["FINN_BUILD_DIR"]="/home/wenjun/Code/dios/neural-network-pipeline/transform/finn_build"
 
 # start_step = None
-start_step = "step_hls_codegen"
+# start_step = "step_hls_codegen"
+start_step = "step_synthesize_bitfile"
 
 for platform_name in platforms_to_build:
     shell_flow_type = platform_to_shell(platform_name)

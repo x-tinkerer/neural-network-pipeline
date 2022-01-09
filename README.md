@@ -48,3 +48,5 @@ index 0c5da60..dd80523 100644
          self.code_gen_dict["$CLKPERIOD$"] = [str(clk)]
 
 ```
+
+- ### some other 'workspace' path need patch, detail in **finn.patch**

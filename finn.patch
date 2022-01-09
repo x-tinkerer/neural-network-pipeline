@@ -1,0 +1,94 @@
+diff --git a/src/finn/custom_op/fpgadataflow/hlscustomop.py b/src/finn/custom_op/fpgadataflow/hlscustomop.py
+index 58187bfe..16f38f55 100644
+--- a/src/finn/custom_op/fpgadataflow/hlscustomop.py
++++ b/src/finn/custom_op/fpgadataflow/hlscustomop.py
+@@ -296,12 +296,14 @@ class HLSCustomOp(CustomOp):
+         f.close()
+         self.code_gen_dict.clear()
+ 
++        finn_hlslib_dir = "/home/wenjun/xlnx/finn_work_repo/finn-hlslib"
++        custom_hls_dir = "/home/wenjun/xlnx/finn_work_repo/finn/custom_hls"
+         # generate tcl script for ip generation
+         self.code_gen_dict["$PROJECTNAME$"] = ["project_{}".format(node.name)]
+         self.code_gen_dict["$HWSRCDIR$"] = [code_gen_dir]
+         self.code_gen_dict["$FPGAPART$"] = [fpgapart]
+-        self.code_gen_dict["$FINNHLSLIBDIR$"] = ["/workspace/finn-hlslib"]
+-        self.code_gen_dict["$FINNHLSCUSTOMDIR$"] = ["/workspace/finn/custom_hls"]
++        self.code_gen_dict["$FINNHLSLIBDIR$"] = [finn_hlslib_dir]
++        self.code_gen_dict["$FINNHLSCUSTOMDIR$"] = [custom_hls_dir]
+         self.code_gen_dict["$TOPFXN$"] = [node.name]
+         self.code_gen_dict["$CLKPERIOD$"] = [str(clk)]
+         self.code_gen_dict["$DEFAULT_DIRECTIVES$"] = self.ipgen_default_directives()
+@@ -404,15 +406,15 @@ class HLSCustomOp(CustomOp):
+         builder = CppBuilder()
+         # to enable additional debug features please uncommand the next line
+         # builder.append_includes("-DDEBUG")
+-        builder.append_includes("-I/workspace/finn/src/finn/qnn-data/cpp")
+-        builder.append_includes("-I/workspace/cnpy/")
+-        builder.append_includes("-I/workspace/finn-hlslib")
+-        builder.append_includes("-I/workspace/finn/custom_hls")
++        builder.append_includes("-I/home/wenjun/xlnx/finn_work_repo/finn/src/finn/qnn-data/cpp")
++        builder.append_includes("-I/home/wenjun/xlnx/finn_work_repo/cnpy/")
++        builder.append_includes("-I/home/wenjun/xlnx/finn_work_repo/finn-hlslib")
++        builder.append_includes("-I/home/wenjun/xlnx/finn_work_repo/finn/custom_hls")
+         builder.append_includes("-I{}/include".format(os.environ["HLS_PATH"]))
+         builder.append_includes("--std=c++14")
+         builder.append_includes("-O3")
+         builder.append_sources(code_gen_dir + "/*.cpp")
+-        builder.append_sources("/workspace/cnpy/cnpy.cpp")
++        builder.append_sources("/home/wenjun/xlnx/finn_work_repo/cnpy/cnpy.cpp")
+         builder.append_includes("-lz")
+         builder.set_executable_path(code_gen_dir + "/node_model")
+         builder.build(code_gen_dir)
+diff --git a/src/finn/custom_op/fpgadataflow/streamingfifo.py b/src/finn/custom_op/fpgadataflow/streamingfifo.py
+index 923081ec..0c9bbff3 100644
+--- a/src/finn/custom_op/fpgadataflow/streamingfifo.py
++++ b/src/finn/custom_op/fpgadataflow/streamingfifo.py
+@@ -110,7 +110,7 @@ class StreamingFIFO(HLSCustomOp):
+         )
+         os.makedirs(verilog_dir)
+         # copy Q_srl.v from finn-rtllib to verilog directory
+-        memstream_dir = "/workspace/finn/finn-rtllib/memstream/hdl/"
++        memstream_dir = "/home/wenjun/xlnx/finn_work_repo/finn/finn-rtllib/memstream/hdl/"
+         Q_file = os.path.join(memstream_dir, "Q_srl.v")
+         copy(Q_file, verilog_dir)
+ 
+diff --git a/src/finn/transformation/fpgadataflow/create_stitched_ip.py b/src/finn/transformation/fpgadataflow/create_stitched_ip.py
+index 618ed078..c44e19dc 100644
+--- a/src/finn/transformation/fpgadataflow/create_stitched_ip.py
++++ b/src/finn/transformation/fpgadataflow/create_stitched_ip.py
+@@ -215,7 +215,7 @@ class CreateStitchedIP(Transformation):
+         model = model.transform(ReplaceVerilogRelPaths())
+         ip_dirs = ["list"]
+         # add RTL streamer IP
+-        ip_dirs.append("/workspace/finn/finn-rtllib/memstream")
++        ip_dirs.append("/home/wenjun/xlnx/finn_work_repo/finn/finn-rtllib/memstream")
+         if model.graph.node[0].op_type not in ["StreamingFIFO", "IODMA"]:
+             warnings.warn(
+                 """First node is not StreamingFIFO or IODMA.
+diff --git a/src/finn/transformation/fpgadataflow/make_zynq_proj.py b/src/finn/transformation/fpgadataflow/make_zynq_proj.py
+index 80ce8f01..65ed7029 100644
+--- a/src/finn/transformation/fpgadataflow/make_zynq_proj.py
++++ b/src/finn/transformation/fpgadataflow/make_zynq_proj.py
+@@ -68,7 +68,7 @@ def collect_ip_dirs(model, ipstitch_path):
+     ip_dirs += [ipstitch_path + "/ip"]
+     if need_memstreamer:
+         # add RTL streamer IP
+-        ip_dirs.append("/workspace/finn/finn-rtllib/memstream")
++        ip_dirs.append("/home/wenjun/xlnx/finn_work_repo/finn/finn-rtllib/memstream")
+     return ip_dirs
+ 
+ 
+diff --git a/src/finn/util/gdrive.py b/src/finn/util/gdrive.py
+index 5a904ed7..055ed6df 100644
+--- a/src/finn/util/gdrive.py
++++ b/src/finn/util/gdrive.py
+@@ -33,7 +33,7 @@ from datetime import datetime
+ 
+ 
+ def upload_to_end2end_dashboard(data_dict):
+-    gdrive_key = "/workspace/finn/gdrive-key/service_account.json"
++    gdrive_key = "/home/wenjun/xlnx/finn_work_repo/finn/gdrive-key/service_account.json"
+     if not os.path.isfile(gdrive_key):
+         warnings.warn("Google Drive key not found, skipping dashboard upload")
+         return
