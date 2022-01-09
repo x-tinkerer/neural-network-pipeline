@@ -3,12 +3,14 @@ The full pipeline from the quantitative training of the neural network, then con
 
 
 ## Some issues:
+----
+- ### can not find vivado_hls.
 
-- can not find vivado_hls
 For Vi*20, we use vitis_hls, need use vitis branch for finn/finn-base/finn-hlslib to support vitis_hls.
 
-- step_hls_ipgen can not find project.
-```patch
+----
+- ### step_hls_ipgen can not find project.
+```bash
 diff --git a/transform/build.py b/transform/build.py
 index 0c5da60..dd80523 100644
 --- a/transform/build.py
@@ -22,8 +24,9 @@ index 0c5da60..dd80523 100644
 
 ```
 
-- step_hls_ipgen can not find inclue file and gen ip fail.
-```patch
+----
+- ### step_hls_ipgen can not find inclue file and gen ip fail.
+```bash
 --- a/src/finn/custom_op/fpgadataflow/hlscustomop.py
 +++ b/src/finn/custom_op/fpgadataflow/hlscustomop.py
 @@ -296,12 +296,14 @@ class HLSCustomOp(CustomOp):
