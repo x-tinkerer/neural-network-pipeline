@@ -2,13 +2,15 @@
 The full pipeline from the quantitative training of the neural network, then conversion to FPGA IPs and the generation of a complete RISC-V SoC.
 
 
-## Some **IMPORTANT** info:
+## Some Bugs fix info:
 ----
 - ### can not find vivado_hls.
 
-For Vi*20, we use vitis_hls, need use vitis branch for finn/finn-base/finn-hlslib to support vitis_hls.
+    For Vi*20, we use vitis_hls, need use vitis branch for finn/finn-base/finn-hlslib to support vitis_hls.
 
-----
+</br>
+
+
 - ### step_hls_ipgen can not find project.
 ```bash
 diff --git a/transform/build.py b/transform/build.py
@@ -23,8 +25,8 @@ index 0c5da60..dd80523 100644
 +os.environ["FINN_BUILD_DIR"]="/home/wenjun/Code/dios/neural-network-pipeline/transform/finn_build"
 
 ```
+</br>
 
-----
 - ### step_hls_ipgen can not find inclue file and gen ip fail.
 
 ```bash
@@ -49,7 +51,26 @@ index 0c5da60..dd80523 100644
 
 ```
 
-----
+</br>
+
 - ### some other 'workspace' path need patch, detail in **[finn.patch](finn.patch)** .
-----
+</br>
+
 - ### [ERROR: [BD 5-390] IP definition not found for VLNV](https://github.com/bigzz/neural-network-pipeline/issues/4)
+
+</br>
+
+## Run Steps:
+----
+### Step0: Prepare model
+
+    First,  we need modify pytorch model with brevitis.
+    Then, Training.
+
+### Step1: Export model
+    python mobilenetv1.py
+
+We can get the `onnx` model now.
+
+### Step2:
+    python transform/build.py
