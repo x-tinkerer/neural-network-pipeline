@@ -38,6 +38,7 @@ import shutil
 # custom steps for mobilenetv1
 from custom_steps import (
     step_mobilenet_streamline,
+    step_demo_streamline_nonlinear,
     step_mobilenet_convert_to_hls_layers,
     step_mobilenet_convert_to_hls_layers_separate_th,
     step_mobilenet_lower_convs,
@@ -70,6 +71,7 @@ def select_build_steps(platform):
             "step_qonnx_to_finn",
             "step_tidy_up",
             step_mobilenet_streamline,
+            step_demo_streamline_nonlinear,
             step_mobilenet_lower_convs,
             step_mobilenet_convert_to_hls_layers_separate_th,
             "step_create_dataflow_partition",
@@ -88,9 +90,9 @@ def select_build_steps(platform):
 os.makedirs("release", exist_ok=True)
 os.environ["FINN_BUILD_DIR"]="/home/wenjun/Code/dios/neural-network-pipeline/transform/finn_build"
 
-# start_step = None
+start_step = None
 # start_step = "step_hls_codegen"
-start_step = "step_synthesize_bitfile"
+# start_step = "step_synthesize_bitfile"
 
 for platform_name in platforms_to_build:
     shell_flow_type = platform_to_shell(platform_name)

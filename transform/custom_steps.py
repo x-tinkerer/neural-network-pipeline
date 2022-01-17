@@ -49,7 +49,6 @@ from finn.transformation.infer_shapes import InferShapes
 from finn.transformation.change_datalayout import ChangeDataLayoutQuantAvgPool2d
 from finn.transformation.infer_datatypes import InferDataTypes
 
-
 def step_mobilenet_streamline(model: ModelWrapper, cfg: DataflowBuildConfig):
     model = model.transform(Streamline())
     additional_streamline_transformations = [
@@ -74,6 +73,16 @@ def step_mobilenet_streamline(model: ModelWrapper, cfg: DataflowBuildConfig):
         model = model.transform(InferDataTypes())
     return model
 
+
+def step_demo_streamline_nonlinear(model: ModelWrapper, cfg: DataflowBuildConfig):
+    streamline_transformations = [
+        reorder.MoveLinearPastEltwiseAdd(),
+        reorder.MoveLinearPastFork(),
+    ]
+    for trn in streamline_transformations:
+        model = model.transform(trn)
+        model = model.transform(GiveUniqueNodeNames())
+    return model
 
 def step_mobilenet_lower_convs(model: ModelWrapper, cfg: DataflowBuildConfig):
     model = model.transform(LowerConvsToMatMul())
